@@ -6,14 +6,14 @@ using System.Text;
 
 namespace TestEfCoreBuggy.Model
 {
-    [Table("my_entity")]
-    public class MyEntity
+    public class PartEntity
     {
-        [Column("id", Order = 1)]
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
-        public MyOwnedEntity FirstOE { get; set; }
-        public MyOwnedEntity SecondOE { get; set; }
+        public long Id { get; set; }
+
+        public long? TemplateId { get; set; }
+        public TemplateEntity Template { get; set; }
+        public string Text { get; set; }
     }
 }

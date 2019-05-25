@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace TestEfCoreBuggy
 {
@@ -9,7 +11,7 @@ namespace TestEfCoreBuggy
         {
             using (MyDbContext context = new MyDbContext())
             {
-                var x = context.MyEntitites.Where(z => z.Id == 1).ToList();
+                var data = context.Templates.Include(x => x.Parts).ToList();
 
                 Console.ReadKey();
             }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using TestEfCoreBuggy.Model;
 
 namespace TestEfCoreBuggy
@@ -16,7 +17,8 @@ namespace TestEfCoreBuggy
 
     public class MyDbContext : DbContext
     {
-        public DbSet<MyEntity> MyEntitites { get; set; }
+        public DbSet<PartEntity> Parts { get; set; }
+        public DbSet<TemplateEntity> Templates { get; set; }
       
         public MyDbContext() {
             Database.EnsureCreated();
@@ -34,19 +36,22 @@ namespace TestEfCoreBuggy
             optionsBuilder.UseSqlite(ConnectionString);
             optionsBuilder.EnableSensitiveDataLogging();
             optionsBuilder.EnableDetailedErrors();
+            optionsBuilder.UseLoggerFactory(_myLoggerFactory);
             base.OnConfiguring(optionsBuilder);
         }
-       
+
+
+        public static readonly Microsoft.Extensions.Logging.LoggerFactory _myLoggerFactory =
+            new LoggerFactory(new[] {
+            new Microsoft.Extensions.Logging.Debug.DebugLoggerProvider()
+        });
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 
-            foreach (var entity in builder.Model.GetEntityTypes())
-            {
-                RemoveCascadeDelete(entity);
-            }
-
-            builder.ApplyConfiguration(new MyTypeConfiguration());
+            builder.ApplyConfiguration(new PartEntityConfiguration());
+            builder.ApplyConfiguration(new TemplateEntityConfiguration());
         }
 
         /// <summary>
