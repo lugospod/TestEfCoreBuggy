@@ -13,11 +13,11 @@ namespace TestEfCoreBuggy
             builder.HasData(
                 new PartEntity() { Id = 1, TemplateId = 1, Text = "Part1" },
                 new PartEntity() { Id = 2, TemplateId = null, Text = "Part2" });
-            //builder
-            //.HasOne(x => x.Template)
-            //.WithMany(x => x.Parts)
-            //.HasForeignKey(x => x.TemplateId)
-            //.IsRequired(false);
+            builder
+            .HasOne(x => x.Template)
+            .WithMany(x => x.Parts)
+            .HasForeignKey(x => x.TemplateId)
+            .IsRequired(false);
         }
     }
 
@@ -26,7 +26,8 @@ namespace TestEfCoreBuggy
         public void Configure(EntityTypeBuilder<TemplateEntity> builder)
         {
             builder.HasData(
-                new TemplateEntity() { Id = 1, Text = "Template1" });
+                new TemplateEntity() { Id = 1, Text = "Template1" },
+                new TemplateEntity() { Id = 2, Text = "Template2" });
 
 
         }
